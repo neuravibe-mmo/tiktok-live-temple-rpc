@@ -32,6 +32,8 @@ class TempleAudioEngine {
     this.ttsQueue = [];
     this.ttsPlaying = false;
     this.currentAudio = null;
+    this.ttsGainNode = null;
+    this.currentBufferSource = null;
     this.onTtsStateChange = null;
   }
 
@@ -50,11 +52,21 @@ class TempleAudioEngine {
     return this.ctx;
   }
 
+  ensureTtsGain() {
+    const ctx = this.ensureContext();
+    if (!this.ttsGainNode && ctx) {
+      this.ttsGainNode = ctx.createGain();
+      this.ttsGainNode.gain.setValueAtTime(this.ttsVolume, ctx.currentTime);
+      this.ttsGainNode.connect(ctx.destination);
+    }
+    return this.ttsGainNode;
+  }
+
   // --------------------------------------------------------------------------
   // 1. NHẠC NỀN "NAM MÔ A DI ĐÀ PHẬT.M4A" (CÓ AUTO-DUCKING KHI ĐỌC LỜI KHẤN)
   // --------------------------------------------------------------------------
   getDuckedVolume() {
-    return Math.max(0.08, +(this.bgBaseVolume * 0.35).toFixed(2));
+    return Math.max(0.01, +(this.bgBaseVolume * 0.15).toFixed(3));
   }
 
   setMusicVolume(vol) {
@@ -70,14 +82,20 @@ class TempleAudioEngine {
   }
 
   setTtsVolume(vol) {
-    const v = Math.max(0, Math.min(1, Number(vol)));
+    const v = Math.max(0, Math.min(2.5, Number(vol)));
     if (!Number.isFinite(v)) return;
     this.ttsVolume = v;
     try {
       localStorage.setItem('temple_tts_vol', String(v));
     } catch (_) {}
+    if (this.ttsGainNode && this.ctx) {
+      try {
+        this.ttsGainNode.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.ttsGainNode.gain.setValueAtTime(this.ttsVolume, this.ctx.currentTime);
+      } catch (_) {}
+    }
     if (this.currentAudio) {
-      this.currentAudio.volume = this.ttsVolume;
+      this.currentAudio.volume = Math.min(1.0, this.ttsVolume);
     }
   }
 
@@ -393,12 +411,35 @@ class TempleAudioEngine {
     }
   }
 
-  playWavUrl(url) {
+  async playWavUrl(url) {
+    try {
+      const ctx = this.ensureContext();
+      const gain = this.ensureTtsGain();
+      if (ctx && gain) {
+        const res = await fetch(url);
+        const arrayBuffer = await res.arrayBuffer();
+        const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+        return new Promise((resolve) => {
+          const source = ctx.createBufferSource();
+          source.buffer = audioBuffer;
+          source.connect(gain);
+          this.currentBufferSource = source;
+          source.onended = () => {
+            this.currentBufferSource = null;
+            resolve();
+          };
+          source.start(0);
+        });
+      }
+    } catch (e) {
+      console.warn('[WebAudio TTS fallback to Audio Element]', e);
+    }
+
     return new Promise((resolve) => {
       try {
         const audio = new Audio(url);
         this.currentAudio = audio;
-        audio.volume = this.ttsVolume;
+        audio.volume = Math.min(1.0, this.ttsVolume);
         audio.onended = () => {
           this.currentAudio = null;
           resolve();

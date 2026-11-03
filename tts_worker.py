@@ -98,8 +98,8 @@ def polish_waveform(wav: np.ndarray, sample_rate: int) -> np.ndarray:
     arr = arr - np.mean(arr)
 
     peak = float(np.max(np.abs(arr)))
-    if peak > 0.90:
-        arr = arr * (0.90 / peak)
+    if peak > 1e-4:
+        arr = arr * (0.95 / peak)
 
     fade_in = min(int(sample_rate * 0.012), arr.size // 4)
     fade_out = min(int(sample_rate * 0.020), arr.size // 4)
