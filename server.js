@@ -264,7 +264,7 @@ const DEFAULT_STATE = {
     sfxEnabled: true,
     smokeDensity: 1.0,
     autoSim: false,
-    autoSimIntervalMs: 9500
+    autoSimIntervalMs: 15000
   },
   tiktok: {
     connected: false,
@@ -839,7 +839,7 @@ async function connectTikTokLive(usernameOrUrl) {
   if (tiktokConn) {
     try {
       await tiktokConn.disconnect();
-    } catch (_) {}
+    } catch (_) { }
     tiktokConn = null;
   }
 
@@ -985,7 +985,7 @@ function disconnectTikTokLive() {
   if (tiktokConn) {
     try {
       tiktokConn.disconnect();
-    } catch (_) {}
+    } catch (_) { }
     tiktokConn = null;
   }
   state.tiktok.connected = false;
@@ -1005,7 +1005,107 @@ const SIM_DEVOTEES = [
   { user: 'Diệu Thảo Tâm An', uniqueId: 'tam_an_99', wish: 'Nam Mô A Di Đà Phật, nguyện cầu thế giới hòa bình chúng sinh an lạc' },
   { user: 'Lê Hoàng Nam', uniqueId: 'hoangnam.dev', wish: 'Cầu thi cử đỗ đạt điểm cao, sự nghiệp rộng mở' },
   { user: 'Phạm Thanh Hà', uniqueId: 'thanhha.lotus', wish: 'Cầu gia đạo êm ấm, con cái ngoan ngoãn học giỏi' },
-  { user: 'Vũ Đức Thịnh', uniqueId: 'ducthinh88', wish: 'Con xin gieo một quẻ cầu tài lộc đầu năm' }
+  { user: 'Vũ Đức Thịnh', uniqueId: 'ducthinh88', wish: 'Con xin gieo một quẻ cầu tài lộc đầu năm' },
+  { user: 'Nguyễn Hoài An', uniqueId: 'hoaian.peace', wish: 'Cầu cho tâm an vạn sự an, gia đình hạnh phúc ấm êm' },
+  { user: 'Lê Minh Khang', uniqueId: 'khang.tech99', wish: 'Cầu công danh sự nghiệp hanh thông, vạn sự cát tường' },
+  { user: 'Phan Thu Trang', uniqueId: 'trangphan_88', wish: 'Cầu cho cha mẹ sống lâu trăm tuổi, bình an vô sự' },
+  { user: 'Đỗ Hoàng Long', uniqueId: 'long_hoang92', wish: 'Cầu kinh doanh thuận buồm xuôi gió, mua may bán đắt' },
+  { user: 'Võ Tuyết Mai', uniqueId: 'tuyetmai.lotus', wish: 'Nam Mô A Di Đà Phật, cầu sức khỏe và bình an cho cả nhà' },
+  { user: 'Bùi Gia Huy', uniqueId: 'giahuy_bui', wish: 'Cầu thi cử đỗ đạt nguyện vọng 1, tương lai rộng mở' },
+  { user: 'Trịnh Cẩm Tú', uniqueId: 'camtu.zen', wish: 'Cầu gia đình hòa thuận, con cái ngoan ngoãn mạnh khỏe' },
+  { user: 'Dương Quốc Bảo', uniqueId: 'bao_duong95', wish: 'Cầu quý nhân phù trợ, công việc thăng tiến thuận lợi' },
+  { user: 'Đinh Phương Thảo', uniqueId: 'thaodinh_flower', wish: 'Cầu duyên lành như ý, tâm an tịnh giữa cuộc sống' },
+  { user: 'Hồ Văn Tuấn', uniqueId: 'tuanho_driver', wish: 'Cầu thượng lộ bình an, đi đến nơi về đến chốn' },
+  { user: 'Phật Tử Diệu Hạnh', uniqueId: 'phattu.dieuhanh', wish: 'Nguyện cầu Tam Bảo gia hộ cho muôn loài an lạc, giải trừ phiền não' },
+  { user: 'Mai Hương Giang', uniqueId: 'huonggiang_spa', wish: 'Cầu tài lộc vượng phát, vạn sự hanh thông như ý' },
+  { user: 'Lý Trọng Nghĩa', uniqueId: 'nghia_trongly', wish: 'Cầu tai qua nạn khỏi, bệnh tật tiêu trừ, thân tâm an lạc' },
+  { user: 'Ngô Thanh Vân', uniqueId: 'van.ngo89', wish: 'Cầu bình an cho người thân nơi phương xa' },
+  { user: 'Cao Minh Đức', uniqueId: 'duc_caominh', wish: 'Cầu cho công trình thuận lợi, sớm hoàn thành viên mãn' },
+  { user: 'Lương Kim Oanh', uniqueId: 'kimoanh.gold', wish: 'Cầu buôn may bán đắt, khách vào tấp nập, tài lộc dồi dào' },
+  { user: 'Phạm Hồng Phúc', uniqueId: 'hongphuc_phat', wish: 'Cầu phúc lộc dồi dào, con cháu thảo hiền hiển đạt' },
+  { user: 'Trần Bích Ngọc', uniqueId: 'bichngoc_gem', wish: 'Cầu cho tâm hồn luôn thanh thản, gặp nhiều điều may mắn' },
+  { user: 'Đặng Quốc Khánh', uniqueId: 'khanh_dang96', wish: 'Cầu khởi nghiệp thành công, mở mang bờ cõi làm ăn' },
+  { user: 'Tạ Như Ý', uniqueId: 'nhuy.ta_93', wish: 'Vạn sự hanh thông, cầu tài đắc tài, cầu lộc đắc lộc' },
+  { user: 'Phật Tử Nhuận Trí', uniqueId: 'nhuantri.zen', wish: 'Nguyện đem công đức này hồi hướng cho khắp tất cả chúng sinh' },
+  { user: 'Nguyễn Tiến Đạt', uniqueId: 'tiendat_sales', wish: 'Cầu tháng mới doanh số tăng cao, khách hàng tin yêu' },
+  { user: 'Hoàng Kim Ngân', uniqueId: 'kimngan_boutique', wish: 'Cầu tài lộc sung túc, gia đạo bình yên thịnh vượng' },
+  { user: 'Trần Hữu Thắng', uniqueId: 'thang.tran_auto', wish: 'Cầu công việc bền vững, bình an trên mọi cung đường' },
+  { user: 'Lê Phương Linh', uniqueId: 'linh.phuong97', wish: 'Cầu cho bản thân kiên định, học hành tiến bộ vượt bậc' },
+  { user: 'Vũ Đình Trọng', uniqueId: 'trong_vudinh', wish: 'Cầu bình an, hóa giải thị phi, tiểu nhân lánh xa' },
+  { user: 'Bùi Thị Lan', uniqueId: 'lanbui.family', wish: 'Cầu cho con dâu mẹ tròn con vuông, gia đình thêm phúc' },
+  { user: 'Đỗ Thanh Tùng', uniqueId: 'tung_dothanh', wish: 'Cầu ký kết hợp đồng thuận lợi, đối tác gắn kết dài lâu' },
+  { user: 'Phan Thảo My', uniqueId: 'thaomy_cake', wish: 'Cầu tiệm bánh làm ăn phát đạt, khách thương mến ủng hộ' },
+  { user: 'Hà Quang Sáng', uniqueId: 'quangsang_it', wish: 'Cầu dự án mới hanh thông, công nghệ mượt mà không lỗi' },
+  { user: 'Phật Tử Tâm Thiện', uniqueId: 'tamthien.lotus', wish: 'Nam Mô Quán Thế Âm Bồ Tát cứu khổ cứu nạn chúng sinh' },
+  { user: 'Nguyễn Thúy Hằng', uniqueId: 'thuyhang_travel', wish: 'Cầu cho chuyến đi bình an, khám phá nhiều điều tốt đẹp' },
+  { user: 'Võ Thành Danh', uniqueId: 'thanhdanh_arch', wish: 'Cầu cho bản vẽ sớm được duyệt, công trình như ý' },
+  { user: 'Trịnh Mỹ Duyên', uniqueId: 'myduyen.beauty', wish: 'Cầu sức khỏe dẻo dai, nhan sắc trẻ trung, tâm trí sáng suốt' },
+  { user: 'Dương Văn Hùng', uniqueId: 'hung_duong77', wish: 'Cầu con cái phương xa mạnh khỏe, công tác tốt đẹp' },
+  { user: 'Đinh Trọng Tấn', uniqueId: 'tan.dinhtrong', wish: 'Cầu năm mới gặp nhiều vận may, quý nhân tương trợ' },
+  { user: 'Mai Bích Trâm', uniqueId: 'bichtram_flower', wish: 'Cầu vạn sự tùy duyên, cuộc sống an nhiên tự tại' },
+  { user: 'Lý Quốc Cường', uniqueId: 'cuong.lyquoc', wish: 'Cầu công việc ổn định, thu nhập vững vàng nuôi gia đình' },
+  { user: 'Phạm Quỳnh Nga', uniqueId: 'quynhnga.yoga', wish: 'Cầu cho thân tâm khỏe mạnh, đẩy lùi lo âu phiền muộn' },
+  { user: 'Trần Văn Phước', uniqueId: 'phuoc.tranvan', wish: 'Cầu gia đình tích nhiều phúc đức, con cháu hưởng lộc' },
+  { user: 'Lê Kiều Oanh', uniqueId: 'kieuoanh_nails', wish: 'Cầu cửa hàng luôn đông khách, khách đến vui vẻ khách đi hài lòng' },
+  { user: 'Phật Tử Diệu Quang', uniqueId: 'dieuquang.buddha', wish: 'Nguyện thắp nén tâm hương dâng lên mười phương chư Phật chứng minh' },
+  { user: 'Hoàng Thái Sơn', uniqueId: 'thaison_builder', wish: 'Cầu công danh vững như núi, sự nghiệp ngày càng thăng hoa' },
+  { user: 'Vũ Thị Minh', uniqueId: 'minhvu_teacher', wish: 'Cầu các em học sinh chăm ngoan, học giỏi, tương lai sáng lạn' },
+  { user: 'Đỗ Hữu Tài', uniqueId: 'hutai.finance', wish: 'Cầu đầu tư sáng suốt, tài chính hanh thông vững vàng' },
+  { user: 'Bùi Bích Hợp', uniqueId: 'bichhop_pharmacy', wish: 'Cầu thuốc đến tay người bệnh tiêu trừ thống khổ, sớm bình phục' },
+  { user: 'Phan Đình Trí', uniqueId: 'tri.phandinh', wish: 'Cầu đỗ bằng lái xe, đi lại bình an mọi nẻo đường' },
+  { user: 'Trương Ngọc Lan', uniqueId: 'ngoclan_tea', wish: 'Cầu cuộc sống thanh tịnh, mọi sự trắc trở sớm vượt qua' },
+  { user: 'Nguyễn Hải Đăng', uniqueId: 'haidang_camera', wish: 'Cầu luôn sáng suốt trên con đường phía trước, sự nghiệp rực rỡ' },
+  { user: 'Phật Tử Giác Ngộ', uniqueId: 'giacngo_anlac', wish: 'Nam Mô A Di Đà Phật, cầu quốc thái dân an, nhà nhà no ấm' },
+  { user: 'Trần Đình Trọng', uniqueId: 'trong_dinh91', wish: 'Cầu cho mẹ già bệnh tật tiêu trừ, sớm ngày bình phục' },
+  { user: 'Lê Thùy Dương', uniqueId: 'thuyduong.green', wish: 'Cầu cho gia đình bốn mùa an khang, cháu con hòa thuận' },
+  { user: 'Nguyễn Văn Toàn', uniqueId: 'toan.nguyen_food', wish: 'Cầu quán ăn buôn may bán đắt, vạn sự hanh thông' },
+  { user: 'Phạm Bảo Trâm', uniqueId: 'baotram_jewelry', wish: 'Cầu tài lộc dồi dào, phúc như Đông Hải thọ tỷ Nam Sơn' },
+  { user: 'Hoàng Minh Tuấn', uniqueId: 'minhtuan.logistic', wish: 'Cầu các chuyến hàng đi đến nơi về đến chốn an toàn' },
+  { user: 'Đỗ Thị Cẩm Nhung', uniqueId: 'camnhung.silk', wish: 'Cầu cho tâm thanh tịnh, gia đạo an vui hạnh phúc' },
+  { user: 'Vũ Quốc Việt', uniqueId: 'viet_vuquoc85', wish: 'Cầu năm mới công việc ổn định, thu nhập vững vàng' },
+  { user: 'Bùi Thanh Huyền', uniqueId: 'huyenbui.makeup', wish: 'Cầu cửa tiệm đông khách, làm đẹp cho đời mang lại niềm vui' },
+  { user: 'Phan Văn Đạt', uniqueId: 'datphan_solar', wish: 'Cầu dự án mới thi công thuận lợi, an toàn trên hết' },
+  { user: 'Trịnh Ngọc Thảo', uniqueId: 'ngocthao.nurse', wish: 'Cầu cho bệnh nhân sớm khỏe mạnh trở về bên gia đình' },
+  { user: 'Dương Hữu Phước', uniqueId: 'phuoc_duong88', wish: 'Cầu cho gia tiên tiền tổ siêu sinh tịnh độ, độ trì con cháu' },
+  { user: 'Đinh Thị Thu Hà', uniqueId: 'thuha_books', wish: 'Cầu tâm an trí sáng, gia đình ấm êm thuận hòa' },
+  { user: 'Mai Trọng Tín', uniqueId: 'trongtin.law', wish: 'Cầu sự việc công minh chính trực, tai qua nạn khỏi' },
+  { user: 'Lý Diệu Linh', uniqueId: 'dieulinh_music', wish: 'Cầu duyên lành gặp được người thương thật lòng, tri kỷ' },
+  { user: 'Ngô Đức Thắng', uniqueId: 'thang.ngoduc', wish: 'Cầu thi tuyển công chức đỗ đạt, phụng sự nhân dân' },
+  { user: 'Cao Thị Hồng Nhung', uniqueId: 'hongnhung_florist', wish: 'Cầu hoa nở rực rỡ, khách hàng yêu quý, công việc như ý' },
+  { user: 'Lương Văn Hải', uniqueId: 'hai_luongvan90', wish: 'Cầu mọi chuyến xe bình an vạn dặm, thượng lộ may mắn' },
+  { user: 'Phật Tử Diệu Từ', uniqueId: 'dieutu_anlac', wish: 'Nam Mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát chứng minh gia hộ' },
+  { user: 'Tạ Minh Nhật', uniqueId: 'minhnhat_solar', wish: 'Cầu tháng mới gặp nhiều điều may mắn, quý nhân giúp đỡ' },
+  { user: 'Nguyễn Kim Phượng', uniqueId: 'kimphuong.gold', wish: 'Cầu buôn may bán đắt, tiền vào như nước, tích lũy dồi dào' },
+  { user: 'Trần Quang Khải', uniqueId: 'khai_tranquang', wish: 'Cầu cho công ty vượt qua khó khăn, anh em đồng lòng' },
+  { user: 'Lê Ngọc Mai', uniqueId: 'ngocmai_dentist', wish: 'Cầu tay nghề ngày càng vững, bệnh nhân tin yêu' },
+  { user: 'Vũ Thanh Tùng', uniqueId: 'tung_vuthanh', wish: 'Cầu cho con trai học hành chăm chỉ, đỗ trường đại học mơ ước' },
+  { user: 'Bùi Diệu Vy', uniqueId: 'dieuvy.fashion', wish: 'Cầu cho thương hiệu thời trang phát triển, khách hàng hài lòng' },
+  { user: 'Đặng Văn Lộc', uniqueId: 'loc_dangvan', wish: 'Cầu lộc tài sung túc, gia đình đón nhiều tin vui' },
+  { user: 'Phan Thị Yến Nhi', uniqueId: 'yennhi_design', wish: 'Cầu sáng tạo không ngừng, thiết kế đẹp mắt, khách hàng ưng ý' },
+  { user: 'Hồ Quốc Bảo', uniqueId: 'quocbao_gym', wish: 'Cầu sức khỏe dẻo dai, tâm hồn trong sáng, giúp đời khỏe vui' },
+  { user: 'Trịnh Ánh Nguyệt', uniqueId: 'anhnguyet.cafe', wish: 'Cầu quán cà phê ấm cúng đông khách, mọi người thư thái' },
+  { user: 'Phật Tử Quảng Trí', uniqueId: 'quangtri_buddha', wish: 'Nguyện thắp nén nhang lòng hướng về Tam Bảo, dứt trừ tham sân si' },
+  { user: 'Dương Thị Mỹ Kim', uniqueId: 'mykim_cosmetic', wish: 'Cầu vạn sự hanh thông, công việc kinh doanh phát đạt' },
+  { user: 'Đinh Văn Hoàng', uniqueId: 'hoang_dinhvan', wish: 'Cầu cho người thân ở nước ngoài luôn mạnh khỏe bình an' },
+  { user: 'Mai Thị Bích Trâm', uniqueId: 'bichtram.pharma', wish: 'Cầu cho gia đình mạnh khỏe, không ốm đau bệnh tật' },
+  { user: 'Lý Gia Hưng', uniqueId: 'giahung.furniture', wish: 'Cầu xưởng gỗ làm ăn phát đạt, sản phẩm tinh xảo được đón nhận' },
+  { user: 'Nguyễn Phương Thảo', uniqueId: 'phuongthao_yoga', wish: 'Cầu cho tâm thanh tịnh, thân an lạc, sống vui mỗi ngày' },
+  { user: 'Trần Quốc Đạt', uniqueId: 'quocdat.security', wish: 'Cầu cho ca trực luôn an toàn, bình yên cho mọi người' },
+  { user: 'Lê Thị Thu Thủy', uniqueId: 'thuthuy_bakery', wish: 'Cầu bánh ngon khách nhớ, gia đình ấm no hạnh phúc' },
+  { user: 'Vũ Đức Toàn', uniqueId: 'ductoan_electric', wish: 'Cầu an toàn lao động, công trình điện sáng khắp nơi' },
+  { user: 'Bùi Kim Cúc', uniqueId: 'kimcuc_orchids', wish: 'Cầu vườn lan nở đẹp, khách ghé thưởng lãm, tâm thanh tịnh' },
+  { user: 'Đỗ Minh Tuấn', uniqueId: 'minhtuan.dev89', wish: 'Cầu sự nghiệp thăng tiến, mở mang thêm nhiều tri thức mới' },
+  { user: 'Phan Thị Thanh Nga', uniqueId: 'thanhnga_tour', wish: 'Cầu cho các đoàn khách đi lại thuận buồm xuôi gió, vui tươi' },
+  { user: 'Hà Văn Dũng', uniqueId: 'dũng.havan', wish: 'Cầu tai qua nạn khỏi, bệnh tật tiêu trừ, gặp thầy gặp thuốc' },
+  { user: 'Phật Tử Diệu Phước', uniqueId: 'dieuphuoc.zen', wish: 'Nam Mô Tiêu Tai Diên Thọ Dược Sư Lưu Ly Quang Vương Phật' },
+  { user: 'Trương Quốc Hùng', uniqueId: 'quochung_tech', wish: 'Cầu khởi nghiệp thành công, sản phẩm mang lại giá trị cho xã hội' },
+  { user: 'Nguyễn Bích Thủy', uniqueId: 'bichthuy.home', wish: 'Cầu gia đạo hòa thuận, vợ chồng sắt son, con cháu hiếu thảo' },
+  { user: 'Lê Văn An', uniqueId: 'an_levan84', wish: 'Cầu bình an trong tâm, buông bỏ phiền não, sống đời an nhiên' },
+  { user: 'Võ Thị Mỹ Duyên', uniqueId: 'myduyen_skin', wish: 'Cầu tài lộc dồi dào, khách hàng thân thiết gắn bó' },
+  { user: 'Đinh Thế Vinh', uniqueId: 'thevinh.export', wish: 'Cầu xuất khẩu hàng hóa thuận lợi, tiền tệ hanh thông' },
+  { user: 'Mai Thị Hoàng Yến', uniqueId: 'hoangyen.vet', wish: 'Cầu cho các bé thú cưng được chăm sóc chu đáo, sớm hồi phục' },
+  { user: 'Cao Minh Trí', uniqueId: 'minhtri_math', wish: 'Cầu cho các học trò thi đậu giải cao, rạng rỡ gia đình' },
+  { user: 'Phật Tử Vạn Hạnh', uniqueId: 'vanhanh_lotus', wish: 'Nam Mô A Di Đà Phật, nguyện hồi hướng phước đức này cho cửu huyền thất tổ' }
 ];
 
 function runSingleSimulationStep() {
@@ -1032,7 +1132,7 @@ function configureAutoSim(enabled) {
   }
   if (state.settings.autoSim) {
     runSingleSimulationStep();
-    autoSimTimer = setInterval(runSingleSimulationStep, state.settings.autoSimIntervalMs || 9500);
+    autoSimTimer = setInterval(runSingleSimulationStep, state.settings.autoSimIntervalMs || 15000);
   }
 }
 
